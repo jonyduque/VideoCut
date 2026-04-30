@@ -16,7 +16,7 @@
 
 ## Phase 2: Backend Development (Go Logic)
 
-- [ ] **Task: Implement Path Resolution and Environment Verification**
+- [x] **Task: Implement Path Resolution and Environment Verification** (3b69d3a)
     - [ ] Deep Planning: Explore `os.Executable` vs `os.Getwd` for portable path resolution.
     - [ ] Write Technical Specification: Define the `App` struct fields for path management and binary location logic.
     - [ ] Write Tests: Create tests for relative path resolution and FFmpeg binary existence check.
