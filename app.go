@@ -95,3 +95,60 @@ func (a *App) GetVideoDuration(filePath string) (float64, error) {
 	return duration, nil
 }
 
+// SplitVideo splits the video into two parts with overlap
+func (a *App) SplitVideo(filePath string, cutPoint float64, overlap float64, outputDir string, part1Name string, part2Name string) error {
+	ffmpegPath := filepath.Join(a.executableDir, "ffmpeg.exe")
+	if _, err := os.Stat(ffmpegPath); err != nil {
+		ffmpegPath = "ffmpeg"
+	}
+
+	if outputDir == "" {
+		outputDir = filepath.Dir(filePath)
+	}
+
+	// Ensure output names have extension
+	if !strings.HasSuffix(strings.ToLower(part1Name), ".mp4") {
+		part1Name += ".mp4"
+	}
+	if !strings.HasSuffix(strings.ToLower(part2Name), ".mp4") {
+		part2Name += ".mp4"
+	}
+
+	out1 := filepath.Join(outputDir, part1Name)
+	out2 := filepath.Join(outputDir, part2Name)
+
+	// Part 1: 0 to cutPoint + overlap
+	args1 := []string{
+		"-i", filePath,
+		"-ss", "0",
+		"-to", fmt.Sprintf("%f", cutPoint+overlap),
+		"-c:v", "libx264", "-preset", "fast", "-crf", "22", "-c:a", "aac",
+		"-y", out1,
+	}
+
+	_, err := a.runCommand(ffmpegPath, args1...)
+	if err != nil {
+		return fmt.Errorf("part 1 failed: %v", err)
+	}
+
+	// Part 2: cutPoint - overlap to end
+	start2 := cutPoint - overlap
+	if start2 < 0 {
+		start2 = 0
+	}
+	args2 := []string{
+		"-i", filePath,
+		"-ss", fmt.Sprintf("%f", start2),
+		"-c:v", "libx264", "-preset", "fast", "-crf", "22", "-c:a", "aac",
+		"-y", out2,
+	}
+
+	_, err = a.runCommand(ffmpegPath, args2...)
+	if err != nil {
+		return fmt.Errorf("part 2 failed: %v", err)
+	}
+
+	return nil
+}
+
+

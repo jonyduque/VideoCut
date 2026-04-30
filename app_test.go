@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -90,5 +91,55 @@ func TestGetVideoDuration(t *testing.T) {
 	_, err = app.GetVideoDuration("nonexistent.mp4")
 	if err == nil {
 		t.Error("Expected error for nonexistent file, got nil")
+	}
+}
+
+func TestSplitVideo(t *testing.T) {
+	app := NewApp()
+	commands := [][]string{}
+	app.runCommand = func(name string, arg ...string) ([]byte, error) {
+		cmd := append([]string{name}, arg...)
+		commands = append(commands, cmd)
+		return []byte("done"), nil
+	}
+
+	err := app.SplitVideo("input.mp4", 100.0, 5.0, "output_dir", "p1", "p2")
+	if err != nil {
+		t.Fatalf("Expected no error, got %v", err)
+	}
+
+	if len(commands) != 2 {
+		t.Errorf("Expected 2 commands, got %d", len(commands))
+	}
+
+	// Verify Part 1 (0 to 105)
+	// args: -i input.mp4 -ss 0 -to 105 ... output_dir/p1.mp4
+	foundP1 := false
+	for _, cmd := range commands {
+		fullCmd := strings.Join(cmd, " ")
+		if strings.Contains(fullCmd, "p1.mp4") {
+			foundP1 = true
+			if !strings.Contains(fullCmd, "-ss 0") || !strings.Contains(fullCmd, "-to 105") {
+				t.Errorf("Part 1 command arguments incorrect: %v", cmd)
+			}
+		}
+	}
+	if !foundP1 {
+		t.Error("Part 1 command not found")
+	}
+
+	// Verify Part 2 (95 to end)
+	foundP2 := false
+	for _, cmd := range commands {
+		fullCmd := strings.Join(cmd, " ")
+		if strings.Contains(fullCmd, "p2.mp4") {
+			foundP2 = true
+			if !strings.Contains(fullCmd, "-ss 95") {
+				t.Errorf("Part 2 command arguments incorrect: %v", cmd)
+			}
+		}
+	}
+	if !foundP2 {
+		t.Error("Part 2 command not found")
 	}
 }

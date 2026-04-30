@@ -28,7 +28,7 @@
     - [ ] Write Tests: Mock `ffprobe` calls to verify duration extraction and error reporting.
     - [ ] Implement: Write the Go function to execute `ffprobe` and return the video duration.
     - [ ] Review: Check for resource leaks in process execution and efficiency of parsing.
-- [ ] **Task: Implement Video Splitting Logic (FFmpeg Integration)**
+- [x] **Task: Implement Video Splitting Logic (FFmpeg Integration)** (faffbcc)
     - [ ] Deep Planning: Determine optimal FFmpeg flags for frame-accurate re-encoding vs speed.
     - [ ] Write Technical Specification: Define the `SplitVideo` binding, including overlap math and output naming.
     - [ ] Write Tests: Create unit tests for the overlap calculation logic and command string construction.
