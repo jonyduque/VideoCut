@@ -7,7 +7,7 @@
     - [ ] Write Technical Specification: Detail the project folder structure and initial configurations.
     - [ ] Setup: Run `wails init` with React/TS template.
     - [ ] Review: Verify project builds and clean state is achieved.
-- [ ] **Task: Configure Project Dependencies (Frontend & Backend)**
+- [x] **Task: Configure Project Dependencies (Frontend & Backend)** (ce5135d)
     - [ ] Deep Planning: Select specific versions for Zustand and other utility libraries.
     - [ ] Write Technical Specification: List all dependencies and their roles in the project.
     - [ ] Implement: Install Zustand and configure Go modules.
