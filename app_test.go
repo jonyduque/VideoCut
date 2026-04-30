@@ -67,3 +67,28 @@ func TestLocateBinaries(t *testing.T) {
 		t.Error("IsEnvironmentReady should be true when both binaries exist")
 	}
 }
+
+func TestGetVideoDuration(t *testing.T) {
+	app := NewApp()
+	app.runCommand = func(name string, arg ...string) ([]byte, error) {
+		return []byte("123.456\n"), nil
+	}
+
+	duration, err := app.GetVideoDuration("test.mp4")
+	if err != nil {
+		t.Fatalf("Expected no error, got %v", err)
+	}
+
+	if duration != 123.456 {
+		t.Errorf("Expected duration 123.456, got %f", duration)
+	}
+
+	// Test error case
+	app.runCommand = func(name string, arg ...string) ([]byte, error) {
+		return nil, os.ErrNotExist
+	}
+	_, err = app.GetVideoDuration("nonexistent.mp4")
+	if err == nil {
+		t.Error("Expected error for nonexistent file, got nil")
+	}
+}

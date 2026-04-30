@@ -2,19 +2,31 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"strconv"
+	"strings"
 )
+
+// CommandRunner defines a function signature for running commands
+type CommandRunner func(name string, arg ...string) ([]byte, error)
 
 // App struct
 type App struct {
 	ctx           context.Context
 	executableDir string
+	runCommand    CommandRunner
 }
 
 // NewApp creates a new App application struct
 func NewApp() *App {
-	return &App{}
+	return &App{
+		runCommand: func(name string, arg ...string) ([]byte, error) {
+			return exec.Command(name, arg...).Output()
+		},
+	}
 }
 
 // startup is called when the app starts. The context is saved
@@ -52,3 +64,34 @@ func (a *App) IsEnvironmentReady() bool {
 	}
 	return true
 }
+
+// GetVideoDuration returns the duration of the video file in seconds
+func (a *App) GetVideoDuration(filePath string) (float64, error) {
+	ffprobePath := filepath.Join(a.executableDir, "ffprobe.exe")
+	
+	// If in development mode and binaries aren't next to exe, try to find them in PATH or current dir
+	if _, err := os.Stat(ffprobePath); err != nil {
+		ffprobePath = "ffprobe" // Fallback to system path
+	}
+
+	args := []string{
+		"-v", "error",
+		"-show_entries", "format=duration",
+		"-of", "default=noprint_wrappers=1:nokey=1",
+		filePath,
+	}
+
+	out, err := a.runCommand(ffprobePath, args...)
+	if err != nil {
+		return 0, err
+	}
+
+	durationStr := strings.TrimSpace(string(out))
+	duration, err := strconv.ParseFloat(durationStr, 64)
+	if err != nil {
+		return 0, fmt.Errorf("failed to parse duration '%s': %v", durationStr, err)
+	}
+
+	return duration, nil
+}
+

@@ -22,7 +22,7 @@
     - [ ] Write Tests: Create tests for relative path resolution and FFmpeg binary existence check.
     - [ ] Implement: Create routines in `app.go` to locate binaries and manage directories.
     - [ ] Review: Verify logic handles different execution paths and restricted permissions.
-- [ ] **Task: Implement Metadata Extraction (ffprobe Integration)**
+- [x] **Task: Implement Metadata Extraction (ffprobe Integration)** (cae8eb7)
     - [ ] Deep Planning: Analyze `ffprobe` output formats (JSON vs CSV) for efficient parsing in Go.
     - [ ] Write Technical Specification: Define the `GetDuration` binding and its error handling.
     - [ ] Write Tests: Mock `ffprobe` calls to verify duration extraction and error reporting.
