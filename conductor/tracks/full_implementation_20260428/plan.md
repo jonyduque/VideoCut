@@ -50,7 +50,7 @@
     - [ ] Write Tests: Test real-time updates of the selected time display and slider constraints.
     - [ ] Implement: Create the metadata display and the interactive timeline control.
     - [ ] Review: Verify synchronization between the UI state and the backend-provided duration.
-- [ ] **Task: Implement Export Settings and Action Controls**
+- [x] **Task: Implement Export Settings and Action Controls** (15a9076)
     - [ ] Deep Planning: Plan the conditional rendering for the custom destination selector.
     - [ ] Write Technical Specification: Detail the Zustand store structure for the export configuration.
     - [ ] Write Tests: Test the form validation and the "Processing" state transitions.

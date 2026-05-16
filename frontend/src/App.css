@@ -5,6 +5,7 @@
   --border-color: #2c3e50;
   --hover-color: #2980b9;
   --card-bg: #243447;
+  --input-bg: #1a2533;
 }
 
 * {
@@ -30,7 +31,7 @@ body, html {
 }
 
 header {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   text-align: center;
 }
 
@@ -45,14 +46,14 @@ main {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   --wails-draggable: no-drag;
 }
 
 .drop-zone {
   border: 2px dashed var(--border-color);
   border-radius: 12px;
-  height: 120px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,11 +66,6 @@ main {
   border-color: var(--accent-color);
   background-color: rgba(52, 152, 219, 0.1);
   transform: scale(1.01);
-}
-
-.drop-content {
-  text-align: center;
-  pointer-events: none;
 }
 
 .drop-content .icon {
@@ -86,39 +82,42 @@ main {
 
 .info-panel {
   background-color: var(--card-bg);
-  padding: 15px;
+  padding: 10px 15px;
   border-radius: 10px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--border-color);
 }
 
 .info-panel p {
-  margin: 5px 0;
+  margin: 3px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .timeline-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 }
 
 .timeline-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   opacity: 0.7;
 }
 
 .current-time {
   color: var(--accent-color);
   font-weight: bold;
-  font-size: 1rem;
 }
 
 .timeline-slider {
   -webkit-appearance: none;
   width: 100%;
-  height: 8px;
-  border-radius: 4px;
+  height: 6px;
+  border-radius: 3px;
   background: var(--border-color);
   outline: none;
 }
@@ -126,18 +125,109 @@ main {
 .timeline-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--accent-color);
   cursor: pointer;
   border: 2px solid var(--text-color);
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
 .timeline-info {
   text-align: center;
+  font-size: 0.8rem;
+}
+
+.settings-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: var(--card-bg);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+label {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+input[type="text"], input[type="number"] {
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
   font-size: 0.9rem;
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--accent-color);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.custom-dest {
+  display: flex;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.custom-dest input {
+  flex: 1;
+}
+
+.primary-btn {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 5px;
+}
+
+.primary-btn:hover:not(:disabled) {
+  background-color: var(--hover-color);
+}
+
+.primary-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secondary-btn {
+  background-color: var(--border-color);
+  color: white;
+  border: none;
+  padding: 0 15px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .loading-overlay {
@@ -145,8 +235,23 @@ main {
   top: 0; left: 0; right: 0; bottom: 0;
   background-color: rgba(0,0,0,0.7);
   display: flex;
+  flex-direction: column;
+  gap: 15px;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   backdrop-filter: blur(4px);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255,255,255,0.1);
+  border-left-color: var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

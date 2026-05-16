@@ -1,6 +1,7 @@
 import { useStore } from './store';
 import DropZone from './DropZone';
 import Timeline from './Timeline';
+import Settings from './Settings';
 import './App.css';
 
 function App() {
@@ -23,13 +24,16 @@ function App() {
             </div>
 
             <Timeline />
+            
+            <Settings />
           </>
         )}
       </main>
 
       {isProcessing && (
         <div className="loading-overlay">
-          <p>Processando...</p>
+          <div className="spinner"></div>
+          <p>Processando vídeo...</p>
         </div>
       )}
     </div>
