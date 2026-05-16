@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // CommandRunner defines a function signature for running commands
@@ -24,7 +26,9 @@ type App struct {
 func NewApp() *App {
 	return &App{
 		runCommand: func(name string, arg ...string) ([]byte, error) {
-			return exec.Command(name, arg...).Output()
+			cmd := exec.Command(name, arg...)
+			out, err := cmd.CombinedOutput()
+			return out, err
 		},
 	}
 }
@@ -81,9 +85,16 @@ func (a *App) GetVideoDuration(filePath string) (float64, error) {
 		filePath,
 	}
 
+	if a.ctx != nil {
+		runtime.LogInfof(a.ctx, "Running ffprobe: %s %v", ffprobePath, args)
+	}
+
 	out, err := a.runCommand(ffprobePath, args...)
 	if err != nil {
-		return 0, err
+		if a.ctx != nil {
+			runtime.LogErrorf(a.ctx, "ffprobe failed (out: %s): %v", string(out), err)
+		}
+		return 0, fmt.Errorf("ffprobe failed (output: %s): %v", string(out), err)
 	}
 
 	durationStr := strings.TrimSpace(string(out))
@@ -126,9 +137,12 @@ func (a *App) SplitVideo(filePath string, cutPoint float64, overlap float64, out
 		"-y", out1,
 	}
 
-	_, err := a.runCommand(ffmpegPath, args1...)
+	out1_res, err := a.runCommand(ffmpegPath, args1...)
 	if err != nil {
-		return fmt.Errorf("part 1 failed: %v", err)
+		if a.ctx != nil {
+			runtime.LogErrorf(a.ctx, "Part 1 failed (out: %s): %v", string(out1_res), err)
+		}
+		return fmt.Errorf("part 1 failed (output: %s): %v", string(out1_res), err)
 	}
 
 	// Part 2: cutPoint - overlap to end
@@ -143,12 +157,57 @@ func (a *App) SplitVideo(filePath string, cutPoint float64, overlap float64, out
 		"-y", out2,
 	}
 
-	_, err = a.runCommand(ffmpegPath, args2...)
+	out2_res, err := a.runCommand(ffmpegPath, args2...)
 	if err != nil {
-		return fmt.Errorf("part 2 failed: %v", err)
+		if a.ctx != nil {
+			runtime.LogErrorf(a.ctx, "Part 2 failed (out: %s): %v", string(out2_res), err)
+		}
+		return fmt.Errorf("part 2 failed (output: %s): %v", string(out2_res), err)
 	}
 
 	return nil
+}
+
+// GetFFmpegVersion returns the version of FFmpeg/ffprobe
+func (a *App) GetFFmpegVersion() (string, error) {
+	ffprobePath := filepath.Join(a.executableDir, "ffprobe.exe")
+	if _, err := os.Stat(ffprobePath); err != nil {
+		ffprobePath = "ffprobe"
+	}
+
+	out, err := a.runCommand(ffprobePath, "-version")
+	if err != nil {
+		return "", err
+	}
+	return string(out), nil
+}
+
+// SelectFile opens a dialog to select a video file
+func (a *App) SelectFile() (string, error) {
+	selection, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{
+		Title: "Selecionar Vídeo",
+		Filters: []runtime.FileFilter{
+			{
+				DisplayName: "Vídeos",
+				Pattern:     "*.mp4;*.mkv;*.avi;*.mov;*.wmv;*.flv",
+			},
+		},
+	})
+	if err != nil {
+		return "", err
+	}
+	return selection, nil
+}
+
+// SelectDirectory opens a dialog to select a directory
+func (a *App) SelectDirectory() (string, error) {
+	selection, err := runtime.OpenDirectoryDialog(a.ctx, runtime.OpenDialogOptions{
+		Title: "Selecionar Pasta de Destino",
+	})
+	if err != nil {
+		return "", err
+	}
+	return selection, nil
 }
 
 

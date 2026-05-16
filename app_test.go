@@ -94,6 +94,36 @@ func TestGetVideoDuration(t *testing.T) {
 	}
 }
 
+func TestGetVideoDuration_SpecialChars(t *testing.T) {
+	app := NewApp()
+	// Create a temp file with spaces and special characters
+	tempDir, err := os.MkdirTemp("", "video cut test")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(tempDir)
+
+	specialPath := filepath.Join(tempDir, "Gravao de Tela.mp4")
+	err = os.WriteFile(specialPath, []byte("dummy media"), 0644)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Mock runCommand to verify it receives the path exactly
+	app.runCommand = func(name string, arg ...string) ([]byte, error) {
+		lastArg := arg[len(arg)-1]
+		if lastArg != specialPath {
+			t.Errorf("Expected path '%s', got '%s'", specialPath, lastArg)
+		}
+		return []byte("10.0\n"), nil
+	}
+
+	_, err = app.GetVideoDuration(specialPath)
+	if err != nil {
+		t.Errorf("Expected no error, got %v", err)
+	}
+}
+
 func TestSplitVideo(t *testing.T) {
 	app := NewApp()
 	commands := [][]string{}
