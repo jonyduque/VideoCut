@@ -1,11 +1,95 @@
+:root {
+  --bg-color: #1b2636;
+  --text-color: #ffffff;
+  --accent-color: #3498db;
+  --border-color: #2c3e50;
+  --hover-color: #2980b9;
+  --card-bg: #243447;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+}
+
 #App {
   height: 100vh;
   width: 100vw;
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-direction: column;
+  padding: 20px;
+  --wails-draggable: drag;
+}
+
+header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  --wails-draggable: no-drag;
+}
+
+.drop-zone {
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  height: 150px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  --wails-draggable: drag;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background-color: var(--card-bg);
+}
+
+.drop-zone.dragging {
+  border-color: var(--accent-color);
+  background-color: rgba(52, 152, 219, 0.1);
+  transform: scale(1.02);
+}
+
+.drop-content {
+  text-align: center;
+  pointer-events: none;
+}
+
+.drop-content .icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.drop-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }

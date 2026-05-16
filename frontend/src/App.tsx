@@ -1,10 +1,32 @@
-import {useState} from 'react';
+import { useStore } from './store';
+import DropZone from './DropZone';
 import './App.css';
 
 function App() {
+  const { isProcessing, filePath, duration } = useStore();
+
   return (
     <div id="App">
-      <h1>VideoCut</h1>
+      <header>
+        <h1>VideoCut</h1>
+      </header>
+
+      <main>
+        <DropZone />
+        
+        {filePath && (
+          <div className="info-panel">
+            <p><strong>Arquivo:</strong> {filePath.split(/[\\/]/).pop()}</p>
+            <p><strong>Duração:</strong> {duration.toFixed(2)}s</p>
+          </div>
+        )}
+      </main>
+
+      {isProcessing && (
+        <div className="loading-overlay">
+          <p>Processando...</p>
+        </div>
+      )}
     </div>
   )
 }

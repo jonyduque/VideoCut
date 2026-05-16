@@ -38,7 +38,7 @@
 
 ## Phase 3: Frontend Development (React & UI)
 
-- [~] **Task: Implement UI Shell and Drag-and-Drop Zone**
+- [x] **Task: Implement UI Shell and Drag-and-Drop Zone** (3165c88)
     - [ ] Deep Planning: Design the React component tree and plan the D&D event handling.
     - [ ] Write Technical Specification: Detail the CSS layout for the reception area and D&D states.
     - [ ] Write Tests: Implement tests for the D&D listener and path capture logic.
