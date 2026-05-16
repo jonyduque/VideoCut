@@ -10,6 +10,7 @@ interface AppState {
   part2Name: string
   useSourceFolder: boolean
   isProcessing: boolean
+  successMessage: string
   ffmpegVersion: string
   
   setFilePath: (path: string) => void
@@ -21,6 +22,7 @@ interface AppState {
   setPart2Name: (name: string) => void
   setUseSourceFolder: (use: boolean) => void
   setIsProcessing: (is: boolean) => void
+  setSuccessMessage: (msg: string) => void
   setFfmpegVersion: (version: string) => void
 }
 
@@ -34,16 +36,18 @@ export const useStore = create<AppState>((set) => ({
   part2Name: '',
   useSourceFolder: true,
   isProcessing: false,
+  successMessage: '',
   ffmpegVersion: '',
 
-  setFilePath: (filePath) => set({ filePath }),
+  setFilePath: (filePath) => set({ filePath, successMessage: '' }),
   setDuration: (duration) => set({ duration }),
-  setCutPoint: (cutPoint) => set({ cutPoint }),
-  setOverlap: (overlap) => set({ overlap }),
-  setOutputDir: (outputDir) => set({ outputDir }),
-  setPart1Name: (part1Name) => set({ part1Name }),
-  setPart2Name: (part2Name) => set({ part2Name }),
-  setUseSourceFolder: (useSourceFolder) => set({ useSourceFolder }),
+  setCutPoint: (cutPoint) => set({ cutPoint, successMessage: '' }),
+  setOverlap: (overlap) => set({ overlap, successMessage: '' }),
+  setOutputDir: (outputDir) => set({ outputDir, successMessage: '' }),
+  setPart1Name: (part1Name) => set({ part1Name, successMessage: '' }),
+  setPart2Name: (part2Name) => set({ part2Name, successMessage: '' }),
+  setUseSourceFolder: (useSourceFolder) => set({ useSourceFolder, successMessage: '' }),
   setIsProcessing: (isProcessing) => set({ isProcessing }),
+  setSuccessMessage: (successMessage) => set({ successMessage }),
   setFfmpegVersion: (ffmpegVersion) => set({ ffmpegVersion }),
 }))

@@ -6,7 +6,13 @@ import Settings from './Settings';
 import './App.css';
 
 function App() {
-  const { isProcessing, filePath, duration } = useStore();
+  const { isProcessing, filePath, duration, setFilePath, setDuration, setSuccessMessage } = useStore();
+
+  const clearFile = () => {
+    setFilePath('');
+    setDuration(0);
+    setSuccessMessage('');
+  };
 
   return (
     <div id="App">
@@ -18,7 +24,10 @@ function App() {
         {filePath && (
           <>
             <div className="info-panel">
-              <p title={filePath}><strong>Arquivo:</strong> {filePath.split(/[\\/]/).pop()}</p>
+              <div className="info-header">
+                <p title={filePath} className="file-name"><strong>Arquivo:</strong> {filePath.split(/[\\/]/).pop()}</p>
+                <button onClick={clearFile} className="icon-btn" title="Limpar arquivo">🧹</button>
+              </div>
               <p><strong>Duração:</strong> {duration.toFixed(2)}s</p>
             </div>
 

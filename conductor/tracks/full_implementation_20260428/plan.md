@@ -71,4 +71,4 @@
     - [ ] Write Technical Specification: Detail the resilience requirements and expected fallback behaviors.
     - [ ] Implement: Verify the app's behavior on a clean Windows environment without admin rights.
     - [ ] Review: Ensure all project guidelines and "Definition of Done" are met.
-- [ ] **Task: Conductor - User Manual Verification 'Final Validation' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Final Validation' (Protocol in workflow.md)** (6db63aa) [checkpoint: 381f211]

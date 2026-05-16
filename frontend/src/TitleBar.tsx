@@ -4,6 +4,7 @@ import { WindowMinimise, Quit } from '../wailsjs/runtime/runtime';
 const TitleBar: React.FC = () => {
   return (
     <div className="title-bar" style={{ '--wails-draggable': 'drag' } as any}>
+      <div className="title-spacer"></div>
       <div className="title-content">
         <span className="app-icon">🎬</span>
         <span className="app-name">VideoCut</span>

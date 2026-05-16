@@ -5,9 +5,9 @@ import { SelectDirectory, SplitVideo } from '../wailsjs/go/main/App';
 const Settings: React.FC = () => {
   const { 
     filePath, cutPoint, overlap, outputDir, 
-    part1Name, part2Name, useSourceFolder, isProcessing,
+    part1Name, part2Name, useSourceFolder, isProcessing, successMessage,
     setOverlap, setOutputDir, setPart1Name, setPart2Name, 
-    setUseSourceFolder, setIsProcessing 
+    setUseSourceFolder, setIsProcessing, setSuccessMessage, setFilePath, setDuration
   } = useStore();
 
   const handleBrowse = async () => {
@@ -26,6 +26,7 @@ const Settings: React.FC = () => {
     
     try {
       setIsProcessing(true);
+      setSuccessMessage('');
       await SplitVideo(
         filePath, 
         cutPoint, 
@@ -34,7 +35,7 @@ const Settings: React.FC = () => {
         part1Name, 
         part2Name
       );
-      alert("Vídeo dividido com sucesso!");
+      setSuccessMessage('Vídeo dividido com sucesso!');
     } catch (err) {
       console.error("SplitVideo error:", err);
       alert("Erro ao dividir vídeo: " + err);
@@ -43,17 +44,25 @@ const Settings: React.FC = () => {
     }
   };
 
+  const clearFile = () => {
+    setFilePath('');
+    setDuration(0);
+    setSuccessMessage('');
+  };
+
   return (
     <div className="settings-panel">
       <div className="form-group">
         <label>Sobra (segundos):</label>
-        <input 
-          type="number" 
-          value={overlap} 
-          onChange={(e) => setOverlap(parseFloat(e.target.value))}
-          min="0"
-          step="0.5"
-        />
+        <div className="custom-stepper">
+          <button onClick={() => setOverlap(Math.max(0, overlap - 0.5))}>-</button>
+          <input 
+            type="number" 
+            value={overlap} 
+            readOnly
+          />
+          <button onClick={() => setOverlap(overlap + 0.5)}>+</button>
+        </div>
       </div>
 
       <div className="form-row">
@@ -93,13 +102,21 @@ const Settings: React.FC = () => {
         )}
       </div>
 
-      <button 
-        onClick={handleSplit} 
-        className="primary-btn" 
-        disabled={isProcessing || !filePath}
-      >
-        {isProcessing ? "Processando..." : "CORTAR VÍDEO"}
-      </button>
+      <div className="action-buttons">
+        <button 
+          onClick={handleSplit} 
+          className="primary-btn split-btn" 
+          disabled={isProcessing || !filePath}
+        >
+          {isProcessing ? "PROCESSANDO..." : "CORTAR VÍDEO"}
+        </button>
+      </div>
+
+      {successMessage && (
+        <div className="success-msg">
+          {successMessage}
+        </div>
+      )}
     </div>
   );
 };

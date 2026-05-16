@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"syscall"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -27,6 +28,8 @@ func NewApp() *App {
 	return &App{
 		runCommand: func(name string, arg ...string) ([]byte, error) {
 			cmd := exec.Command(name, arg...)
+			// Hide window on Windows
+			cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 			out, err := cmd.CombinedOutput()
 			return out, err
 		},

@@ -8,7 +8,6 @@ const DropZone: React.FC = () => {
   const { setFilePath, setDuration, setPart1Name, setPart2Name, setIsProcessing, setCutPoint } = useStore();
 
   const handleFile = async (path: string) => {
-    console.log("DropZone handleFile called with path:", path);
     if (!path) return;
 
     setFilePath(path);
@@ -32,18 +31,15 @@ const DropZone: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log("DropZone: Initializing OnFileDrop listener");
-    
     // In Wails v2, OnFileDrop(callback, useDropTarget)
     // 'true' means it only fires for elements with --wails-drop-target: drop
     OnFileDrop((x, y, paths) => {
-      console.log(`OnFileDrop fired at (${x},${y}) with paths:`, paths);
       if (paths && paths.length > 0) {
         handleFile(paths[0]);
       }
     }, true);
 
-    // No direct unsubscribe for OnFileDrop in v2 runtime usually, 
+    // No direct unsubscribe for OnFileDrop in v2 runtime usually,
     // but registering a new one replaces the old one.
   }, []);
 
