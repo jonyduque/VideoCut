@@ -5,7 +5,15 @@ const Timeline: React.FC = () => {
   const { duration, cutPoint, setCutPoint } = useStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCutPoint(parseFloat(e.target.value));
+    let val = parseFloat(e.target.value);
+    const middle = duration / 2;
+    
+    // Snap to middle (1s threshold)
+    if (Math.abs(val - middle) < 1) {
+      val = middle;
+    }
+    
+    setCutPoint(val);
   };
 
   const formatTime = (seconds: number) => {

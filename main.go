@@ -17,11 +17,14 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "VideoCut",
-		Width:  800,
-		Height: 600,
+		Title:         "VideoCut",
+		Width:         500,
+		Height:        600,
 		DisableResize: true,
 		Frameless:     true,
+		DragAndDrop: &options.DragAndDrop{
+			EnableFileDrop: true,
+		},
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

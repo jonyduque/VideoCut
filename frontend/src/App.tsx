@@ -1,4 +1,5 @@
 import { useStore } from './store';
+import TitleBar from './TitleBar';
 import DropZone from './DropZone';
 import Timeline from './Timeline';
 import Settings from './Settings';
@@ -9,9 +10,7 @@ function App() {
 
   return (
     <div id="App">
-      <header>
-        <h1>VideoCut</h1>
-      </header>
+      <TitleBar />
 
       <main>
         <DropZone />
@@ -19,7 +18,7 @@ function App() {
         {filePath && (
           <>
             <div className="info-panel">
-              <p><strong>Arquivo:</strong> {filePath.split(/[\\/]/).pop()}</p>
+              <p title={filePath}><strong>Arquivo:</strong> {filePath.split(/[\\/]/).pop()}</p>
               <p><strong>Duração:</strong> {duration.toFixed(2)}s</p>
             </div>
 

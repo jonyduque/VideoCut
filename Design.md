@@ -1,18 +1,18 @@
-# Especificações de Design e Interface
+# Especifica??es de Design e Interface
 
 A interface deve ser minimalista, focada na usabilidade direta, funcionando em uma janela de tamanho fixo para evitar complexidade de redimensionamento de layout.
 
-**Área de Recepção de Arquivo (Drag and Drop)**
-O topo da interface será dominado por uma área delimitada por bordas tracejadas. O texto indicará a ação de arrastar o vídeo para este local ou clicar para abrir o seletor nativo do Windows. Durante o evento de "dragover", a área mudará de cor para fornecer feedback visual ao usuário.
+**?rea de Recep??o de Arquivo (Drag and Drop)**
+O topo da interface ser? dominado por uma ?rea delimitada por bordas tracejadas. O texto indicar? a a??o de arrastar o v?deo para este local ou clicar para abrir o seletor nativo do Windows. Durante o evento de "dragover", a ?rea mudar? de cor para fornecer feedback visual ao usu?rio.
 
 **Painel de Metadados e Corte**
-Abaixo da área de recepção, após o carregamento do arquivo, o nome do vídeo e sua duração total serão exibidos. Um controle deslizante (slider) horizontal ocupará a largura da janela, permitindo deslizar do segundo zero até o final do vídeo. O tempo exato selecionado no slider será exibido em um texto atualizado em tempo real.
+Abaixo da ?rea de recep??o, ap?s o carregamento do arquivo, o nome do v?deo e sua dura??o total ser?o exibidos. Um controle deslizante (slider) horizontal ocupar? a largura da janela, permitindo deslizar do segundo zero at? o final do v?deo. O tempo exato selecionado no slider ser? exibido em um texto atualizado em tempo real.
 
-**Configurações de Saída**
-Uma seção dedicada conterá os campos de entrada de texto para as configurações finais.
-1. Um campo numérico para a "Sobra" (em segundos).
-2. Dois campos de texto para os nomes do "Vídeo Parte 1" e "Vídeo Parte 2".
-3. Uma caixa de seleção (checkbox) com o texto "Salvar na mesma pasta do arquivo original". Se desmarcada, exibirá um botão ao lado para escolher o diretório de destino.
+**Configura??es de Sa?da**
+Uma se??o dedicada conter? os campos de entrada de texto para as configura??es finais.
+1. Um campo num?rico para a "Sobra" (em segundos).
+2. Dois campos de texto para os nomes do "V?deo Parte 1" e "V?deo Parte 2".
+3. Uma caixa de sele??o (checkbox) com o texto "Salvar na mesma pasta do arquivo original". Se desmarcada, exibir? um bot?o ao lado para escolher o diret?rio de destino.
 
-**Controle de Ação**
-Na parte inferior, um botão principal de destaque será responsável por iniciar o corte. Durante o processamento, este botão será desabilitado e seu texto mudará para indicar o progresso, evitando execuções duplicadas.
+**Controle de A??o**
+Na parte inferior, um bot?o principal de destaque ser? respons?vel por iniciar o corte. Durante o processamento, este bot?o ser? desabilitado e seu texto mudar? para indicar o progresso, evitando execu??es duplicadas.
