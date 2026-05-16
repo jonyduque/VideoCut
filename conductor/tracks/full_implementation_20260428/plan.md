@@ -44,7 +44,7 @@
     - [ ] Write Tests: Implement tests for the D&D listener and path capture logic.
     - [ ] Implement: Build the main interface with a modern/sleek look and interactive D&D area.
     - [ ] Review: Check for responsive behavior on the fixed-size window and visual feedback quality.
-- [ ] **Task: Implement Timeline Slider and Metadata Preview**
+- [x] **Task: Implement Timeline Slider and Metadata Preview** (8014a6c)
     - [ ] Deep Planning: Choose a slider implementation (native vs library) for best UX and precision.
     - [ ] Write Technical Specification: Define the state sync between the slider and the duration metadata.
     - [ ] Write Tests: Test real-time updates of the selected time display and slider constraints.

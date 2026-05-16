@@ -1,5 +1,6 @@
 import { useStore } from './store';
 import DropZone from './DropZone';
+import Timeline from './Timeline';
 import './App.css';
 
 function App() {
@@ -15,10 +16,14 @@ function App() {
         <DropZone />
         
         {filePath && (
-          <div className="info-panel">
-            <p><strong>Arquivo:</strong> {filePath.split(/[\\/]/).pop()}</p>
-            <p><strong>Duração:</strong> {duration.toFixed(2)}s</p>
-          </div>
+          <>
+            <div className="info-panel">
+              <p><strong>Arquivo:</strong> {filePath.split(/[\\/]/).pop()}</p>
+              <p><strong>Duração:</strong> {duration.toFixed(2)}s</p>
+            </div>
+
+            <Timeline />
+          </>
         )}
       </main>
 
