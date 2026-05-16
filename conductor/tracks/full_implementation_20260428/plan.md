@@ -34,11 +34,11 @@
     - [ ] Write Tests: Create unit tests for the overlap calculation logic and command string construction.
     - [ ] Implement: Develop the FFmpeg invocation routine with support for the "Sobra" (overlap) feature.
     - [ ] Review: Verify the generated commands are correct and process management is resilient.
-- [ ] **Task: Conductor - User Manual Verification 'Backend Development' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Backend Development' (Protocol in workflow.md)** (afb89ab) [checkpoint: 252600f]
 
 ## Phase 3: Frontend Development (React & UI)
 
-- [ ] **Task: Implement UI Shell and Drag-and-Drop Zone**
+- [~] **Task: Implement UI Shell and Drag-and-Drop Zone**
     - [ ] Deep Planning: Design the React component tree and plan the D&D event handling.
     - [ ] Write Technical Specification: Detail the CSS layout for the reception area and D&D states.
     - [ ] Write Tests: Implement tests for the D&D listener and path capture logic.
