@@ -173,3 +173,32 @@ func TestSplitVideo(t *testing.T) {
 		t.Error("Part 2 command not found")
 	}
 }
+
+func TestSplitVideo_PermissionError(t *testing.T) {
+	app := NewApp()
+	// Mock command runner to simulate permission error
+	app.runCommand = func(name string, arg ...string) ([]byte, error) {
+		return nil, os.ErrPermission
+	}
+
+	err := app.SplitVideo("input.mp4", 50.0, 5.0, "restricted_dir", "p1", "p2")
+	if err == nil {
+		t.Error("Expected error for restricted directory, got nil")
+	}
+	if !strings.Contains(err.Error(), "part 1 failed") {
+		t.Errorf("Expected 'part 1 failed' in error message, got: %v", err)
+	}
+}
+
+func TestGetFFmpegVersion_Missing(t *testing.T) {
+	app := NewApp()
+	app.executableDir = "/nonexistent"
+	app.runCommand = func(name string, arg ...string) ([]byte, error) {
+		return nil, os.ErrNotExist
+	}
+
+	_, err := app.GetFFmpegVersion()
+	if err == nil {
+		t.Error("Expected error for missing FFmpeg, got nil")
+	}
+}

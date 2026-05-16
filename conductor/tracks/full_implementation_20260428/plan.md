@@ -66,7 +66,7 @@
     - [ ] Write Tests: Implement E2E tests simulating the full application lifecycle.
     - [ ] Implement: Refine IPC calls and state synchronization based on integration results.
     - [ ] Review: Analyze overall program efficiency and look for final bug fixes.
-- [ ] **Task: Portability and Permission Stress Tests**
+- [x] **Task: Portability and Permission Stress Tests** (001b2f6)
     - [ ] Deep Planning: Plan tests for restricted folder access and missing FFmpeg scenarios.
     - [ ] Write Technical Specification: Detail the resilience requirements and expected fallback behaviors.
     - [ ] Implement: Verify the app's behavior on a clean Windows environment without admin rights.
