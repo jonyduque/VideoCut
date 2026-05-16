@@ -56,11 +56,11 @@
     - [ ] Write Tests: Test the form validation and the "Processing" state transitions.
     - [ ] Implement: Build the settings form (Sobra, Naming, Destination) and the main action button.
     - [ ] Review: Verify UI locking during processing and clear error/success notifications.
-- [ ] **Task: Conductor - User Manual Verification 'Frontend Development' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Frontend Development' (Protocol in workflow.md)** (bbf55d5) [checkpoint: 1dcbea1]
 
 ## Phase 4: Final Validation & Resilience
 
-- [ ] **Task: End-to-End Integration Testing**
+- [~] **Task: End-to-End Integration Testing**
     - [ ] Deep Planning: Define the critical user path from file drop to successful multi-segment cut.
     - [ ] Write Technical Specification: List the integration test scenarios (Standard cut, Multi-part cut, Error states).
     - [ ] Write Tests: Implement E2E tests simulating the full application lifecycle.
