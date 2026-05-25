@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"embed"
 	"fmt"
 	"os"
 	"os/exec"
@@ -12,6 +13,10 @@ import (
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
+
+//go:embed bin/*
+var embeddedBinaries embed.FS
+
 
 // CommandRunner defines a function signature for running commands
 type CommandRunner func(name string, arg ...string) ([]byte, error)
@@ -43,8 +48,54 @@ func (a *App) startup(ctx context.Context) {
 	dir, err := a.getExecutableDir()
 	if err == nil {
 		a.executableDir = dir
+		// Try to extract binaries if they are missing
+		a.extractBinaries()
 	}
 }
+
+// extractBinaries extracts ffmpeg and ffprobe from embedded FS if not found in local dir or system PATH
+func (a *App) extractBinaries() {
+	binaries := []string{"ffmpeg.exe", "ffprobe.exe"}
+
+	for _, bin := range binaries {
+		targetPath := filepath.Join(a.executableDir, bin)
+
+		// 1. Check if already exists in local directory
+		if _, err := os.Stat(targetPath); err == nil {
+			continue
+		}
+
+		// 2. Check if available in system PATH
+		binName := strings.TrimSuffix(bin, ".exe")
+		if _, err := exec.LookPath(binName); err == nil {
+			if a.ctx != nil {
+				runtime.LogInfof(a.ctx, "%s found in system PATH, skipping extraction", bin)
+			}
+			continue
+		}
+
+		// 3. Extract from embedded FS as last resort
+		data, err := embeddedBinaries.ReadFile("bin/" + bin)
+		if err != nil {
+			if a.ctx != nil {
+				runtime.LogErrorf(a.ctx, "Failed to read embedded %s: %v", bin, err)
+			}
+			continue
+		}
+
+		err = os.WriteFile(targetPath, data, 0755)
+		if err != nil {
+			if a.ctx != nil {
+				runtime.LogErrorf(a.ctx, "Failed to write %s to disk: %v", bin, err)
+			}
+		} else {
+			if a.ctx != nil {
+				runtime.LogInfof(a.ctx, "Successfully extracted %s to %s", bin, a.executableDir)
+			}
+		}
+	}
+}
+
 
 // executableFunc allows mocking os.Executable in tests
 var executableFunc = os.Executable

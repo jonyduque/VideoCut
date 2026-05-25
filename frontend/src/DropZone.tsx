@@ -56,11 +56,11 @@ const DropZone: React.FC = () => {
 
   return (
     <div
-      className="drop-zone"
+      className='drop-zone'
       onClick={openDialog}
     >
       <div className="drop-content">
-        <span className="icon">📁</span>
+        <span className="icon">🎬</span>
         <p>Arraste um vídeo aqui ou clique para selecionar</p>
       </div>
     </div>

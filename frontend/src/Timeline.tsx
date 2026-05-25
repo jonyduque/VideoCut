@@ -1,8 +1,10 @@
 import React from 'react';
 import { useStore } from './store';
+import video from './assets/video.png';
+import limpeza from './assets/limpeza.png';
 
 const Timeline: React.FC = () => {
-  const { duration, cutPoint, setCutPoint, overlap } = useStore();
+  const { duration, filePath, cutPoint, setCutPoint, overlap, setFilePath, setDuration, setSuccessMessage } = useStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = parseFloat(e.target.value);
@@ -25,31 +27,45 @@ const Timeline: React.FC = () => {
   // Calculate overlap bar position and width
   const overlapWidth = (overlap * 2 / duration) * 100;
   const overlapLeft = ((cutPoint - overlap) / duration) * 100;
+  const clearFile = () => {
+    setFilePath('');
+    setDuration(0);
+    setSuccessMessage('');
+  };
 
   return (
     <div className="timeline-container">
-      <div className="timeline-labels">
-        <span>0:00.00</span>
-        <span className="current-time">{formatTime(cutPoint)}</span>
-        <span>{formatTime(duration)}</span>
+      <div className="filename">
+        <p title={filePath} className="filename-text">
+          <span className="icon">📼 </span>
+          {filePath?.split(/[\\/]/).pop()}
+        </p>
+        <button onClick={clearFile} className="icon-btn" title="Limpar arquivo">Limpar</button>
       </div>
-      <div className="slider-wrapper">
-        <div
-          className="overlap-visual"
-          style={{
-            left: `${Math.max(0, overlapLeft)}%`,
-            width: `${Math.min(100 - overlapLeft, overlapWidth)}%`
-          }}
-        ></div>
-        <input
-          type="range"
-          min="0"
-          max={duration}
-          step="0.01"
-          value={cutPoint}
-          onChange={handleChange}
-          className="timeline-slider"
-        />
+      <div className="timeline-content">
+        <div className="timeline-labels">
+          <span>0:00.00</span>
+          <span className="current-time">{formatTime(cutPoint)}</span>
+          <span>{formatTime(duration)}</span>
+        </div>
+        <div className="slider-wrapper">
+          <div
+            className="overlap-visual"
+            style={{
+              left: `${Math.max(0, overlapLeft)}%`,
+              width: `${Math.min(100 - overlapLeft, overlapWidth)}%`
+            }}
+          ></div>
+          <input
+            type="range"
+            min="0"
+            max={duration}
+            step="0.01"
+            value={cutPoint}
+            onChange={handleChange}
+            className="timeline-slider"
+          />
+        </div>
       </div>
     </div>
   );

@@ -20,19 +20,12 @@ function App() {
 
       <main>
         <DropZone />
-        
+
         {filePath && (
           <>
-            <div className="info-panel">
-              <div className="info-header">
-                <p title={filePath} className="file-name"><strong>Arquivo:</strong> {filePath.split(/[\\/]/).pop()}</p>
-                <button onClick={clearFile} className="icon-btn" title="Limpar arquivo">🧹</button>
-              </div>
-              <p><strong>Duração:</strong> {duration.toFixed(2)}s</p>
-            </div>
 
             <Timeline />
-            
+
             <Settings />
           </>
         )}
